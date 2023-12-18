@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments::header}">
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+
+                                    <div th:if="${param.reset_success}" class="col-sm-8">
+                                        <p class="alert alert-info alert-dismissible fade show" role="alert"> You have successfully reset your password, please log in here.</p>
+                                    </div>
+                                    <div th:if="${param.verified}">
+                                        <div class="alert alert-success"> This account has already been verified.</div>
+                                    </div>
+                                    <div th:if="${param.expired}">
+                                        <div class="alert alert-warning">Link already expired, resend link</div>
+                                        <a class="small" th:href = "@{/resend-verification-token?token={code}(code=${param.token})}"> Resend email verification token</a>
+                                    </div>
+                                    <div th:if="${param.token_resent}">
+                                        <div class="alert alert-warning"> A new verification link has been sent to your email please, check to activate your account</div>
+                                    </div>
+                                    <div th:if="${param.valid}">
+                                        <div class="alert alert-success"> Email verified successfully. Please log in here</div>
+                                    </div>
+                                    <div th:if = "${param.error}" class="alert alert-danger text-center">
+                                        <p class="text-danger"> Something went wrong</p>
+                                    </div>
+                                    <div th:if = "${param.logout}" class="alert alert-success text-center">
+                                        You have been logged out!
+                                    </div>
+                                    <div th:if = "${param.invalid_token}" class="alert alert-success text-center">
+                                        Invalid verification token for forgot password, email found.
+                                    </div>
+
+                                    <form class="user" th:action="@{/do-login}" method="post">
+                                        <div class="form-group">
+                                            <input type="email" name="username" class="form-control form-control-user"
+                                                id="username" aria-describedby="emailHelp"
+                                                placeholder="Enter Email Address...">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" id="password" class="form-control form-control-user"
+                                                 placeholder="Password">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" th:href = "@{/forgot-password}" >Forgot Password?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" th:href = "@{/register}">Create an Account!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<div th:replace="~{fragments::script}"></div>
+</body>
+
+</html>
